@@ -1,0 +1,41 @@
+{
+  "name": "anonymousapi",
+  "version": "1.0.0",
+  "description": " node api for anonymous",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "babel src -d dist",
+    "dev": "nodemon --exec babel-node src/index",
+    "lint:init": "./node_modules/.bin/eslint --init"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Amir9eng/AnonymousAPI.git"
+  },
+  "keywords": [
+    "Node"
+  ],
+  "author": "Muhammad Mukhtar <amirmukhtarme@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Amir9eng/AnonymousAPI/issues"
+  },
+  "homepage": "https://github.com/Amir9eng/AnonymousAPI#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.12.1",
+    "@babel/core": "^7.12.3",
+    "@babel/node": "^7.12.1",
+    "@babel/preset-env": "^7.12.1",
+    "eslint": "^7.12.1",
+    "eslint-config-standard": "^16.0.1",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "nodemon": "^2.0.6"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
