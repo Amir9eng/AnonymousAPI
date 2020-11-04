@@ -1,5 +1,6 @@
 import { Router } from 'express'
-import { signup, login } from '../services/postservices'
+import { signup, login } from '../services/auth.services'
+
 
 const router = Router()
 
