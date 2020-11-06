@@ -2,7 +2,7 @@ import express from 'express'
 import morgan from 'morgan'
 import mongoose from 'mongoose'
 import cors from 'cors'
-import { port, url } from '../utils/config'
+import { port, url } from './utils/config'
 // routes
 import apiRouter from './routes'
 
@@ -18,7 +18,7 @@ mongoose.connect(url,
 
 const db = mongoose.connection
 db.on('error', console.log)
-db.once('open', () => console.log('successful'))
+db.once('open', () => console.log('DB connection successful'))
 
 app.use(cors())
 app.use(morgan('dev'))

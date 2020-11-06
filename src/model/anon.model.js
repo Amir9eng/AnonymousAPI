@@ -1,10 +1,8 @@
 import { model, Schema } from 'mongoose'
+import { hashPassword } from '../utils'
 
 const anonSchema = new Schema({
-  name: {
-    type: String,
-    required: true
-  },
+  name: String,
   username: {
     type: String,
     required: true
@@ -13,10 +11,7 @@ const anonSchema = new Schema({
     type: String,
     required: true
   },
-  email: {
-    type: String,
-    required: true
-  },
+  email: String,
   message: [{
     text: String,
     createdAt: {
@@ -27,5 +22,15 @@ const anonSchema = new Schema({
 },
  { timestamps: true }
  ) 
+
+ anonSchema.pre('save', function(next) {
+   const anon = this
+
+   if (anon.isModified('password')) {
+     anon.password = hashPassword(anon.password)
+   }
+
+   next()
+ })
 
 module.exports = model('Anon', anonSchema)

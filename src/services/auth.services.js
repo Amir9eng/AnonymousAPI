@@ -1,20 +1,27 @@
 import  Anon  from '../model/anon.model'
+import { createToken, handleServerResponse, checkPassword } from '../utils'
 
 export const signup = async (req, res) => {
   const { name, username, password, email } = req.body
 
 
 try {
-  const anonExist = await Anon.countDocuments({ $or: [{email} , { username }] })
-  if (anonExist) return res.status(400).send('Username/Email already exists')
-  const anon = await new Anon({
-    name, email, username, password
-  }).save()
-
-  res.json({
-    message: 'signup sucessful',
-    payload: anon
+  const anonExist = await Anon.countDocuments({username: req.body.username} )
+  if (anonExist) return res.status(400).send('Username already exists')
+  const anon = await new Anon(
+    req.body
+  ).save()
+  const token = createToken({
+    username: anon.username,
+    id: anon._id
   })
+
+ handleServerResponse(res, {
+   message: 'signup successful',
+   payload: {
+     token
+   }
+ })
 } catch (err) {
   console.log(err)
   res.status(500).send('Internal server error')
@@ -22,17 +29,20 @@ try {
 }
 
 export const login = async(req, res) => {
-  const { username, password, email} = req.body
+  const { username,password, email} = req.body
 
 
   try {
     const anon = await Anon.findOne({ $or: [{username}, {email}]})
     if (!anon) return res.status(404).send('Incorrect login credentials, please try again')
-    if (anon.password !== password) return res.status(404).send('Incorrect login credentials, please try again')
-
-    res.json({
+    if (!checkPassword(password, anon.password)) return handleServerResponse(res, 'incorrect login credentials', 401)
+    const token = createToken({
+      username: anon.username,
+      id: anon._id
+    })
+    handleServerResponse(res,{
       message: 'login successful',
-      payload: anon
+      payload: token
     })
   } catch (err) {
     console.log(err)
