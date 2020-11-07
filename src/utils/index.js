@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
 import { tokenSecret } from './config'
+import {v4 as uuidv4} from 'uuid'
 
 export const createToken = (data) => {
   return jwt.sign(data, tokenSecret,{
@@ -29,3 +30,5 @@ export const handleServerResponse = (res, data, status = 200, err) => {
 export const hashPassword = (pswd) => bcrypt.hashSync(pswd, 2)
 
 export const checkPassword = (pswd, hash) => bcrypt.compareSync(pswd, hash)
+
+export const uid = () => uuidv4()

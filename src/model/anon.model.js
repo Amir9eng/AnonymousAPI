@@ -1,5 +1,6 @@
 import { model, Schema } from 'mongoose'
-import { hashPassword } from '../utils'
+import { hashPassword, uid } from '../utils'
+
 
 const anonSchema = new Schema({
   name: String,
@@ -10,6 +11,11 @@ const anonSchema = new Schema({
   password: {
     type: String,
     required: true
+  },
+  passKey: {
+    type:String,
+    default:uid,
+    index:true
   },
   email: String,
   message: [{
