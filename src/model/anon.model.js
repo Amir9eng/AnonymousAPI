@@ -12,13 +12,8 @@ const anonSchema = new Schema({
     type: String,
     required: true
   },
-  passKey: {
-    type:String,
-    default:uid,
-    index:true
-  },
   email: String,
-  message: [{
+  messages: [{
     text: String,
     createdAt: {
       type: Date,

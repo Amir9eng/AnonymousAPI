@@ -7,7 +7,7 @@ export const signup = async (req, res) => {
 
 try {
   const anonExist = await Anon.countDocuments({username: req.body.username} )
-  if (anonExist) return res.status(400).send('Username already exists')
+  if (anonExist) return res.status(409).send('Username already exists')
   const anon = await new Anon(
     req.body
   ).save()
