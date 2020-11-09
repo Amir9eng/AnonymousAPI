@@ -1,6 +1,5 @@
 import { handleServerResponse } from '../utils'
 import Anon from '../model/anon.model'
-import { text } from 'express'
 
 export const addMessage = async (req, res) => {
   const { username } = req.query
@@ -16,7 +15,13 @@ export const addMessage = async (req, res) => {
     anon.messages.push({ text: req.body.message })
     await anon.save()
 
-    handleServerResponse(res, 'success👍', 201)
+    // handleServerResponse(res, 'success👍', 201)
+    handleServerResponse(res, {
+      message: 'success👍',
+      payload: {
+        anon
+      }
+    })
   } catch (err) {
     handleServerResponse(res, 'internal server error', 500, err)
   }
