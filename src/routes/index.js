@@ -7,6 +7,6 @@ const router = Router()
 
 router.post('/signup', signupPolicy, signup)
 router.post('/login', loginPolicy, login)
-router.post('/message', messagePolicy, addMessage)
+router.post('/:username', messagePolicy, addMessage)
 
 export default router

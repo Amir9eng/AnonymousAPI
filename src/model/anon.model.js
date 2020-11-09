@@ -1,6 +1,5 @@
 import { model, Schema } from 'mongoose'
-import { hashPassword, uid } from '../utils'
-
+import { hashPassword } from '../utils'
 
 const anonSchema = new Schema({
   name: String,
@@ -21,17 +20,17 @@ const anonSchema = new Schema({
     }
   }]
 },
- { timestamps: true }
- ) 
+{ timestamps: true }
+)
 
- anonSchema.pre('save', function(next) {
-   const anon = this
+anonSchema.pre('save', function (next) {
+  const anon = this
 
-   if (anon.isModified('password')) {
-     anon.password = hashPassword(anon.password)
-   }
+  if (anon.isModified('password')) {
+    anon.password = hashPassword(anon.password)
+  }
 
-   next()
- })
+  next()
+})
 
 module.exports = model('Anon', anonSchema)

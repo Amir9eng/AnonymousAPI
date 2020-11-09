@@ -2,10 +2,10 @@ import { handleServerResponse } from '../utils'
 import Anon from '../model/anon.model'
 
 export const addMessage = async (req, res) => {
-  const { username } = req.query
-  console.log({ username })
+  const { username } = req.params
+  // console.log({ username })
   if (!username) {
-    return handleServerResponse(res, '"username" must be passed via query', 400, 'no username!')
+    return handleServerResponse(res, '"username" must be passed via parameters', 400, 'no username!')
   }
 
   try {
@@ -15,13 +15,13 @@ export const addMessage = async (req, res) => {
     anon.messages.push({ text: req.body.message })
     await anon.save()
 
-    // handleServerResponse(res, 'success👍', 201)
-    handleServerResponse(res, {
-      message: 'success👍',
-      payload: {
-        anon
-      }
-    })
+    handleServerResponse(res, 'success👍', 201)
+    // handleServerResponse(res, {
+    //   message: 'success👍',
+    //   payload: {
+    //     anon
+    //   }
+    // })
   } catch (err) {
     handleServerResponse(res, 'internal server error', 500, err)
   }
