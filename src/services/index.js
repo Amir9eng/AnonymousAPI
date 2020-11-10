@@ -10,18 +10,18 @@ export const addMessage = async (req, res) => {
 
   try {
     const anon = await Anon.findOne({ username })
-    if (!anon) return handleServerResponse(res, `Anon "${username}" not found`, 404)
+    if (!anon) return handleServerResponse(res, `username "${username}" not found`, 404)
 
     anon.messages.push({ text: req.body.message })
     await anon.save()
 
-    handleServerResponse(res, 'success👍', 201)
-    // handleServerResponse(res, {
-    //   message: 'success👍',
-    //   payload: {
-    //     anon
-    //   }
-    // })
+    // handleServerResponse(res, 'success👍', 201)
+    handleServerResponse(res, {
+      message: 'success👍',
+      payload: {
+        anon
+      }
+    })
   } catch (err) {
     handleServerResponse(res, 'internal server error', 500, err)
   }

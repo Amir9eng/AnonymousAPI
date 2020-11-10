@@ -2,7 +2,7 @@ import Anon from '../model/anon.model'
 import { createToken, handleServerResponse, checkPassword } from '../utils'
 
 export const signup = async (req, res) => {
-  // const { name, username, password, email } = req.body
+  
 
   try {
     const anonExist = await Anon.countDocuments({ username: req.body.username })
@@ -21,6 +21,7 @@ export const signup = async (req, res) => {
         token
       }
     })
+  
   } catch (err) {
     console.log(err)
     res.status(500).send('Internal server error')
