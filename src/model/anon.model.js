@@ -11,7 +11,10 @@ const anonSchema = new Schema({
     type: String,
     required: true
   },
-  email: String,
+  email: {
+    type: String,
+    required: true
+  },
   messages: [{
     text: String,
     createdAt: {

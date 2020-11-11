@@ -9,7 +9,7 @@ export const addMessage = async (req, res) => {
   }
 
   try {
-    const anon = await Anon.findOne({ username })
+    const anon = await Anon.findOne({ username },"email")
     if (!anon) return handleServerResponse(res, `username "${username}" not found`, 404)
 
     anon.messages.push({ text: req.body.message })

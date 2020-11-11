@@ -32,16 +32,20 @@ export const login = async (req, res) => {
   const { username, password, email } = req.body
 
   try {
-    const anon = await Anon.findOne({ $or: [{ username }, { email }] })
+    const anon = await Anon.findOne({ $or: [{ username }, { email }]})
     if (!anon) return res.status(404).send('Incorrect login credentials, please try again')
     if (!checkPassword(password, anon.password)) return handleServerResponse(res, 'incorrect login credentials', 401)
+
+    const {username:anonUsername, messages:anonMessages} = anon
+
     const token = createToken({
       username: anon.username,
       id: anon._id
     })
     handleServerResponse(res, {
       message: 'login successful',
-      payload: token
+      payload: token,
+      data:{anonUsername ,anonMessages }
     })
   } catch (err) {
     console.log(err)
