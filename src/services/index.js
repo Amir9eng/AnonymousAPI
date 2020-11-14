@@ -7,6 +7,7 @@ export const addMessage = async (req, res) => {
   if (!username) {
     return handleServerResponse(res, '"username" must be passed via parameters', 400, 'no username!')
   }
+  console.error(err)
 
   try {
     const anon = await Anon.findOne({ username },"email")
