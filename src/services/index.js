@@ -1,29 +1,21 @@
-import { handleServerResponse } from '../utils'
+import { handleServerResponse, decodeToken } from '../utils'
 import Anon from '../model/anon.model'
 
-export const addMessage = async (req, res) => {
-  const { username } = req.params
-  // console.log({ username })
-  if (!username) {
-    return handleServerResponse(res, '"username" must be passed via parameters', 400, 'no username!')
-  }
-  console.error(err)
+export const validateToken = async (req, res, next) => {
+  let token = req.headers.Authorization || req.headers['x-access-token'] || req.headers.token || req.body.token
+
+  if (!token) return handleServerResponse(res, 'Authentication is required!', 401)
 
   try {
-    const anon = await Anon.findOne({ username },"email")
-    if (!anon) return handleServerResponse(res, `username "${username}" not found`, 404)
+    const decoded = await decodeToken(token)
+    req.decoded = decoded
+    // console.log({ decoded })
 
-    anon.messages.push({ text: req.body.message })
-    await anon.save()
-
-    // handleServerResponse(res, 'success👍', 201)
-    handleServerResponse(res, {
-      message: 'success👍',
-      payload: {
-        anon
-      }
-    })
+    next()
   } catch (err) {
-    handleServerResponse(res, 'internal server error', 500, err)
+    if (err.name && err.name === 'JsonWebTokenError') {
+      return handleServerResponse(res, err.message, 401)
+    }
+    handleServerResponse(res, 'authentication error', 401, err)
   }
 }

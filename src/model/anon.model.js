@@ -36,4 +36,4 @@ anonSchema.pre('save', function (next) {
   next()
 })
 
-module.exports = model('Anon', anonSchema)
+export default model('Anon', anonSchema)
